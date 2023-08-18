@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Logged Results</title>
+</head>
+<body>
+    <h1>Logged Results</h1>
+    <table border="1">
+        <tr>
+            <th>Timestamp</th>
+            <th>IP Address</th>
+            <th>Value</th>
+        </tr>
+        {%- for entry in log_entries %}
+        <tr>
+            <td>{{ entry['timestamp'] }}</td>
+            <td>{{ entry['ip'] }}</td>
+            <td>{{ entry['value'] }}</td>
+        </tr>
+        {%- endfor %}
+    </table>
+</body>
+</html>
